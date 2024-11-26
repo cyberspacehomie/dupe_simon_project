@@ -1,0 +1,4 @@
+dir_to_ignore/.xil
+dir_to_ignore/ENGE220_simon_project.cache
+dir_to_ignore/ENGE220_simon_project.hw
+dir_to_ignore/ENGE220_simon_project.sim
