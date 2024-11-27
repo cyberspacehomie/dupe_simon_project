@@ -12,13 +12,16 @@ module top(
     wire [3:0] deb_s1_press;
     wire button_ctrl_out;
 
+	reg [7:0] score_count, round_count;
+
+
 //  states for state machine
 		localparam IDLE = 0, RANDOMIZE = 1, 
 		    SEQUENCE = 2, USERINPUT = 3,
 		    CORRECT = 4, SEQUENCECOMPLETE = 5, 
 		    INCORRECT = 6;
 		
-		reg [3:0] c_state, n_state; 
+	reg [3:0] c_state, n_state; 
 
 //  state machine outputs
 //  missing lcd out and a few others, will probably be reg
@@ -26,8 +29,6 @@ module top(
     wire led_enable, step, randomize, play_seq;
     wire reset;
 
-// regs for current/next state
-    reg [2:0] current, next;
 
     debouncer deb_s0 (
 	    .pressed(deb_s1_press [0]), 
@@ -74,9 +75,13 @@ module top(
         .enable(button_ctrl_out)
         );
 
-		always @(posedge clk) begin
-			c_state <= n_state;	 
-		end
+	always @(posedge clk) begin
+		c_state <= n_state;	 
+	end
+
+	always @* begin
+		n_state = c_state;
+	end
 
     always @* begin    
 				case(c_state)
@@ -101,8 +106,8 @@ module top(
 							// this should play a pseudorandom sequence of tones
 							// how many is dependent on round counter,
 							// initial round count should be 1
-							// each tone should be played for 3/4 of a second
-							// with a 1/4 gap between tones
+							// each tone should be played for 3/4 second
+							// with a 1/4 second gap between tones
 							// after playing tones, should move to USERINPUT
 							// can use key_sequence_count for this to count up
 							// until it reaches round_count, where it moves to USERINPUT
