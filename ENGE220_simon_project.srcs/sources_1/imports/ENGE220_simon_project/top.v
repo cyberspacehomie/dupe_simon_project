@@ -15,13 +15,13 @@ module top(
 	reg [7:0] score_count, round_count;
 
 
-//  states for state machine
+//  states for state machine NEED TO MAKE MORE STATES, Keep it simple!
 		localparam IDLE = 0, RANDOMIZE = 1, 
 		    SEQUENCE = 2, USERINPUT = 3,
 		    CORRECT = 4, SEQUENCECOMPLETE = 5, 
 		    INCORRECT = 6;
 		
-	reg [3:0] c_state, n_state; 
+	reg [4:0] c_state, n_state; 
 
 //  state machine outputs
 //  missing lcd out and a few others, will probably be reg
@@ -29,6 +29,10 @@ module top(
     wire led_enable, step, randomize, play_seq;
     wire reset;
 
+	reg [24:0] timer_loadvalue;
+	reg timer_reset, timer_enable;
+	reg score_count_reset, score_count_enable;
+	reg round_count_reset, round_count_enable;
 
     debouncer deb_s0 (
 	    .pressed(deb_s1_press [0]), 
@@ -81,6 +85,13 @@ module top(
 
 	always @* begin
 		n_state = c_state;
+		timer_reset = 0;
+		timer_enable = 0;
+		timer_loadvalue = 0;
+		score_count_reset = 0;
+		score_count_enable = 0;
+		round_count_reset = 0;
+		round_count_enable = 0;
 	end
 
     always @* begin    
