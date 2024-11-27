@@ -10,12 +10,13 @@ module top(
 //  debounced simon buttons, the state machine inputs	
     wire [3:0] deb_s1_held;
     wire [3:0] deb_s1_press;
+    wire button_ctrl_out;
 
-// states for state machine
+//  states for state machine
 		localparam IDLE = 0, RANDOMIZE = 1, 
-            SEQUENCE = 2, USERINPUT = 3,
-            CORRECT = 4, SEQUENCECOMPLETE = 5, 
-            INCORRECT = 6;
+		    SEQUENCE = 2, USERINPUT = 3,
+		    CORRECT = 4, SEQUENCECOMPLETE = 5, 
+		    INCORRECT = 6;
 		
 		reg [3:0] c_state, n_state; 
 
@@ -59,7 +60,8 @@ module top(
     button_ctrl simon_button_loc (
         .button_loc(color),
         .button_in(deb_s1_press),
-				.enable(deb_s1_held)
+        .button_out(button_ctrl_out),
+	    .enable(1)
     );
     
     led_ctrl simon_color_ctrl (
@@ -69,7 +71,7 @@ module top(
         .led3(simon_led3), 
         .clk(clk), 
         .color(color), 
-        .enable()
+        .enable(button_ctrl_out)
         );
 
 		always @(posedge clk) begin
@@ -119,7 +121,7 @@ module top(
 
 					CORRECT: begin
 							// increment key_sequence_count
-							// go back to USERINPUT
+							// go back to USERINPUT, unless
 							
 					end
 

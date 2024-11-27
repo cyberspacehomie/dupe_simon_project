@@ -3,24 +3,58 @@
 # SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
 # IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
 # SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
-# Start of session at: Tue Nov 26 18:58:46 2024
-# Process ID: 12100
-# Current directory: C:/Users/danie/Documents/lab_9/ENGE220_simon_project
-# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent31108 C:\Users\danie\Documents\lab_9\ENGE220_simon_project\ENGE220_simon_project.xpr
-# Log file: C:/Users/danie/Documents/lab_9/ENGE220_simon_project/vivado.log
-# Journal file: C:/Users/danie/Documents/lab_9/ENGE220_simon_project\vivado.jou
-# Running On        :ZephyrusG14-DB
+# Start of session at: Wed Nov 27 09:01:20 2024
+# Process ID: 6192
+# Current directory: Z:/Documents/ENGE220_simon_project
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent16080 Z:\Documents\ENGE220_simon_project\ENGE220_simon_project.xpr
+# Log file: Z:/Documents/ENGE220_simon_project/vivado.log
+# Journal file: Z:/Documents/ENGE220_simon_project\vivado.jou
+# Running On        :WM106-ST08_01
 # Platform          :Windows Server 2016 or Windows 10
 # Operating System  :22631
-# Processor Detail  :AMD Ryzen 9 5900HS with Radeon Graphics        
-# CPU Frequency     :3294 MHz
-# CPU Physical cores:8
-# CPU Logical cores :16
-# Host memory       :25131 MB
-# Swap memory       :15032 MB
-# Total Virtual     :40163 MB
-# Available Virtual :17594 MB
+# Processor Detail  :13th Gen Intel(R) Core(TM) i7-13700
+# CPU Frequency     :2112 MHz
+# CPU Physical cores:16
+# CPU Logical cores :24
+# Host memory       :34050 MB
+# Swap memory       :5100 MB
+# Total Virtual     :39151 MB
+# Available Virtual :30405 MB
 #-----------------------------------------------------------
 start_gui
-open_project C:/Users/danie/Documents/lab_9/ENGE220_simon_project/ENGE220_simon_project.xpr
-update_files -from_files C:/Users/danie/Documents/lab_9/ENGE220_simon_project/constraints.xdc -to_files //ceng/dblue23/Documents/ENGE220_simon_project/constraints.xdc -filesets [get_filesets *]
+open_project Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.xpr
+launch_runs impl_1 -to_step write_bitstream -jobs 12
+wait_on_run impl_1
+open_hw_manager
+connect_hw_server -allow_non_jtag
+disconnect_hw_server localhost:3121
+connect_hw_server -allow_non_jtag
+disconnect_hw_server localhost:3121
+connect_hw_server -allow_non_jtag
+disconnect_hw_server localhost:3121
+connect_hw_server -allow_non_jtag
+open_hw_target
+set_property PROGRAM.FILE {Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1/top.bit} [get_hw_devices xc7a35t_0]
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1/top.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+close_hw_manager
+reset_run synth_1
+launch_runs impl_1 -to_step write_bitstream -jobs 12
+wait_on_run impl_1
+open_hw_manager
+connect_hw_server -allow_non_jtag
+open_hw_target
+set_property PROGRAM.FILE {Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1/top.bit} [get_hw_devices xc7a35t_0]
+current_hw_device [get_hw_devices xc7a35t_0]
+refresh_hw_device -update_hw_probes false [lindex [get_hw_devices xc7a35t_0] 0]
+set_property PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property FULL_PROBES.FILE {} [get_hw_devices xc7a35t_0]
+set_property PROGRAM.FILE {Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1/top.bit} [get_hw_devices xc7a35t_0]
+program_hw_devices [get_hw_devices xc7a35t_0]
+refresh_hw_device [lindex [get_hw_devices xc7a35t_0] 0]
+git push
