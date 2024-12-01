@@ -3,29 +3,30 @@ module debouncer(
 	input button, clk, reset
 	);
 
-	localparam SAMPLETIME = 1999999;//20ms
-	reg [20:0] timer;
+	localparam SAMPLETIME = 1999999; //20ms
+	reg [21:0] timer;
 	reg bt_samp, bt_deb, bt_deb_d;
 
 	always @(posedge clk) begin
 		if (reset) begin
-			timer <=SAMPLETIME;
+			timer <= SAMPLETIME;
 		end
 		else begin
-			timer <= timer -1;
+			timer <= timer - 1;
 			if (timer == 0) begin
 				timer <= SAMPLETIME;
 			end
 		end
 	end
-
-	always@(posedge clk) begin
+	
+	always @(posedge clk) begin
 		bt_deb_d <= bt_deb;
-		if (timer == 1) begin
+		if (timer == 0) begin
 			bt_samp <= button;
-			if (bt_samp == button)
+			if (bt_samp == button) begin
 				bt_deb <= button;
-		end
+			end
+	   end
 	end	
 	
 	assign held = bt_deb;

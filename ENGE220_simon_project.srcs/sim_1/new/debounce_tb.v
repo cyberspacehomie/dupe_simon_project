@@ -16,7 +16,7 @@ module debounce_tb;
     .button(button),
     .clk(clk),
     .reset(reset)
-  );
+    );
 
   // Clock generation
   always #5 clk = ~clk; // 100 MHz clock (10 ns period)

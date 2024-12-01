@@ -1,7 +1,7 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ---------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
-| Date         : Sat Nov 30 18:38:42 2024
+| Date         : Sat Nov 30 23:14:54 2024
 | Host         : ZephyrusG14-DB running 64-bit major release  (build 9200)
 | Command      : report_utilization -file top_utilization_placed.rpt -pb top_utilization_placed.pb
 | Design       : top
@@ -32,8 +32,8 @@ Table of Contents
 +-------------------------+------+-------+------------+-----------+-------+
 |        Site Type        | Used | Fixed | Prohibited | Available | Util% |
 +-------------------------+------+-------+------------+-----------+-------+
-| Slice LUTs              |    8 |     0 |          0 |     20800 |  0.04 |
-|   LUT as Logic          |    8 |     0 |          0 |     20800 |  0.04 |
+| Slice LUTs              |   12 |     0 |          0 |     20800 |  0.06 |
+|   LUT as Logic          |   12 |     0 |          0 |     20800 |  0.06 |
 |   LUT as Memory         |    0 |     0 |          0 |      9600 |  0.00 |
 | Slice Registers         |   19 |     0 |          0 |     41600 |  0.05 |
 |   Register as Flip Flop |   19 |     0 |          0 |     41600 |  0.05 |
@@ -69,12 +69,12 @@ Table of Contents
 +------------------------------------------+------+-------+------------+-----------+-------+
 |                 Site Type                | Used | Fixed | Prohibited | Available | Util% |
 +------------------------------------------+------+-------+------------+-----------+-------+
-| Slice                                    |    8 |     0 |          0 |      8150 |  0.10 |
-|   SLICEL                                 |    5 |     0 |            |           |       |
+| Slice                                    |   12 |     0 |          0 |      8150 |  0.15 |
+|   SLICEL                                 |    9 |     0 |            |           |       |
 |   SLICEM                                 |    3 |     0 |            |           |       |
-| LUT as Logic                             |    8 |     0 |          0 |     20800 |  0.04 |
+| LUT as Logic                             |   12 |     0 |          0 |     20800 |  0.06 |
 |   using O5 output only                   |    0 |       |            |           |       |
-|   using O6 output only                   |    7 |       |            |           |       |
+|   using O6 output only                   |   11 |       |            |           |       |
 |   using O5 and O6                        |    1 |       |            |           |       |
 | LUT as Memory                            |    0 |     0 |          0 |      9600 |  0.00 |
 |   LUT as Distributed RAM                 |    0 |     0 |            |           |       |
@@ -122,9 +122,9 @@ Table of Contents
 +-----------------------------+------+-------+------------+-----------+-------+
 |          Site Type          | Used | Fixed | Prohibited | Available | Util% |
 +-----------------------------+------+-------+------------+-----------+-------+
-| Bonded IOB                  |   17 |    17 |          0 |       106 | 16.04 |
-|   IOB Master Pads           |    8 |       |            |           |       |
-|   IOB Slave Pads            |    9 |       |            |           |       |
+| Bonded IOB                  |   21 |    21 |          0 |       106 | 19.81 |
+|   IOB Master Pads           |   10 |       |            |           |       |
+|   IOB Slave Pads            |   11 |       |            |           |       |
 | Bonded IPADs                |    0 |     0 |          0 |        10 |  0.00 |
 | Bonded OPADs                |    0 |     0 |          0 |         4 |  0.00 |
 | PHY_CONTROL                 |    0 |     0 |          0 |         5 |  0.00 |
@@ -186,11 +186,11 @@ Table of Contents
 | FDRE     |   19 |        Flop & Latch |
 | OBUF     |   16 |                  IO |
 | LUT6     |    5 |                 LUT |
+| LUT1     |    5 |                 LUT |
+| IBUF     |    5 |                  IO |
 | CARRY4   |    5 |          CarryLogic |
 | LUT4     |    2 |                 LUT |
 | LUT2     |    1 |                 LUT |
-| LUT1     |    1 |                 LUT |
-| IBUF     |    1 |                  IO |
 | BUFG     |    1 |               Clock |
 +----------+------+---------------------+
 

@@ -1,28 +1,29 @@
 // Nothing goes in this module
 // just module instances and the state machine!
 module top(
-		output [2:0] simon_led0, simon_led1, simon_led2, simon_led3,
-		output [3:0] led,
-		input [3:0] simon_buttons_n,
-		input clk,
-		input [3:0] sw
-		);
+	output [2:0] simon_led0, simon_led1, simon_led2, simon_led3,
+	output [3:0] led,
+	input [3:0] simon_buttons_n,
+	input clk,
+	input [3:0] sw
+	);
 
+	wire [3:0] simon_buttons = ~simon_buttons_n;
 //  debounced simon buttons, the state machine inputs	
     wire [3:0] deb_s1_held;
     wire [3:0] deb_s1_press;
     wire button_ctrl_out;
 
-		reg [7:0] score_count, round_count;
+	reg [7:0] score_count, round_count;
 
 
 //  states for state machine NEED TO MAKE MORE STATES, Keep it simple!
-		localparam IDLE = 0, RANDOMIZE = 1, 
-		    SEQUENCE = 2, USERINPUT = 3,
-		    CORRECT = 4, SEQUENCECOMPLETE = 5, 
-		    INCORRECT = 6;
-		
-		reg [4:0] c_state, n_state; 
+	localparam IDLE = 0, RANDOMIZE = 1, 
+		SEQUENCE = 2, USERINPUT = 3,
+		CORRECT = 4, SEQUENCECOMPLETE = 5, 
+		INCORRECT = 6;
+	
+	reg [4:0] c_state, n_state; 
 
 //  state machine outputs
 //  missing lcd out and a few others, will probably be reg
@@ -30,57 +31,57 @@ module top(
     wire led_enable, step, randomize, play_seq;
     wire reset;
 
-		reg [24:0] timer_loadvalue;
-		reg timer_reset, timer_enable;
-		reg score_count_reset, score_count_enable;
-		reg round_count_reset, round_count_enable;
+	reg [24:0] timer_loadvalue;
+	reg timer_reset, timer_enable;
+	reg score_count_reset, score_count_enable;
+	reg round_count_reset, round_count_enable;
 
     debouncer deb_s0 (
 	    .pressed(deb_s1_press [0]), 
 	    .held(deb_s1_held [0]),
-	    .button(simon_buttons_n[0]),
+	    .button(simon_buttons[0]),
 	    .reset(reset)
     );
 
     debouncer deb_s1 (
 	    .pressed(deb_s1_press [1]), 
 	    .held(deb_s1_held [1]),
-	    .button(simon_buttons_n[1]),
+	    .button(simon_buttons[1]),
 	    .reset(reset)
     );
     
     debouncer deb_s2 (
 	    .pressed(deb_s1_press [2]), 
 	    .held(deb_s1_held [2]),
-	    .button(simon_buttons_n[2]),
+	    .button(simon_buttons[2]),
 	    .reset(reset)
     );
 
     debouncer deb_s3 (
 	    .pressed(deb_s1_press [3]), 
 	    .held(deb_s1_held [3]),
-	    .button(simon_buttons_n[3]),
+	    .button(simon_buttons[3]),
 	    .reset(reset)
     );
 
     button_ctrl simon_button_loc (
-			.button_loc(color),
-			.button_in(deb_s1_held),
-			.button_out(button_ctrl_out),
-			.enable(1)
-			);
+		.button_loc(color),
+		.button_in(simon_button),
+		.button_out(button_ctrl_out),
+		.enable(1)
+		);
     
     led_ctrl simon_color_ctrl (
-			.led0(simon_led0), 
-			.led1(simon_led1), 
-			.led2(simon_led2), 
-			.led3(simon_led3), 
-			.clk(clk), 
-			.color(color), 
-			.enable(button_ctrl_out)
-			);
+		.led0(simon_led0), 
+		.led1(simon_led1), 
+		.led2(simon_led2), 
+		.led3(simon_led3), 
+		.clk(clk), 
+		.color(color), 
+		.enable(1)
+		);
 
-		assign led = deb_s1_held;
+	assign led = simon_buttons;
 // commenting out the state machine because theres
 // some stuff that needs to be tested
 /*
