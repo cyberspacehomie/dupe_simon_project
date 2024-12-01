@@ -24,9 +24,9 @@ module led_ctrl(
         if (enable) begin
             case (color)
                 0: led0 = GREEN;
-                1: led0 = RED;
-                2: led0 = BLUE;
-                3: led0 = YELLOW;
+                1: led1 = RED;
+                2: led2 = BLUE;
+                3: led3 = YELLOW;
             endcase
         end
      end

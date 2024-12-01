@@ -1,5 +1,5 @@
 namespace eval ::optrace {
-  variable script "Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1/top.tcl"
+  variable script "C:/Users/danie/Documents/lab_9/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1/top.tcl"
   variable category "vivado_impl"
 }
 
@@ -104,24 +104,24 @@ start_step init_design
 set ACTIVE_STEP init_design
 set rc [catch {
   create_msg_db init_design.pb
-  set_param chipscope.maxJobs 6
+  set_param chipscope.maxJobs 4
   set_param xicom.use_bs_reader 1
-  set_param runs.launchOptions { -jobs 12  }
+  set_param runs.launchOptions { -jobs 8  }
 OPTRACE "create in-memory project" START { }
   create_project -in_memory -part xc7a35tcpg236-1
   set_property design_mode GateLvl [current_fileset]
   set_param project.singleFileAddWarning.threshold 0
 OPTRACE "create in-memory project" END { }
 OPTRACE "set parameters" START { }
-  set_property webtalk.parent_dir Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.cache/wt [current_project]
-  set_property parent.project_path Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.xpr [current_project]
-  set_property ip_output_repo Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.cache/ip [current_project]
+  set_property webtalk.parent_dir C:/Users/danie/Documents/lab_9/ENGE220_simon_project/ENGE220_simon_project.cache/wt [current_project]
+  set_property parent.project_path C:/Users/danie/Documents/lab_9/ENGE220_simon_project/ENGE220_simon_project.xpr [current_project]
+  set_property ip_output_repo C:/Users/danie/Documents/lab_9/ENGE220_simon_project/ENGE220_simon_project.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
 OPTRACE "set parameters" END { }
 OPTRACE "add files" START { }
-  add_files -quiet Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.runs/synth_1/top.dcp
+  add_files -quiet C:/Users/danie/Documents/lab_9/ENGE220_simon_project/ENGE220_simon_project.runs/synth_1/top.dcp
 OPTRACE "read constraints: implementation" START { }
-  read_xdc Z:/Documents/ENGE220_simon_project/constraints.xdc
+  read_xdc C:/Users/danie/Documents/lab_9/ENGE220_simon_project/constraints.xdc
 OPTRACE "read constraints: implementation" END { }
 OPTRACE "read constraints: implementation_pre" START { }
 OPTRACE "read constraints: implementation_pre" END { }

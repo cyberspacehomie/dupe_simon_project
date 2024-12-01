@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 -------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version     : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
-| Date             : Wed Nov 27 09:35:24 2024
-| Host             : WM106-ST08_01 running 64-bit major release  (build 9200)
+| Date             : Sat Nov 30 18:39:23 2024
+| Host             : ZephyrusG14-DB running 64-bit major release  (build 9200)
 | Command          : report_power -file top_power_routed.rpt -pb top_power_summary_routed.pb -rpx top_power_routed.rpx
 | Design           : top
 | Device           : xc7a35tcpg236-1
@@ -52,12 +52,12 @@ Table of Contents
 +----------------+-----------+----------+-----------+-----------------+
 | On-Chip        | Power (W) | Used     | Available | Utilization (%) |
 +----------------+-----------+----------+-----------+-----------------+
-| Slice Logic    |     0.062 |       38 |       --- |             --- |
+| Slice Logic    |     0.062 |       37 |       --- |             --- |
 |   LUT as Logic |     0.034 |        8 |     20800 |            0.04 |
 |   CARRY4       |     0.013 |        5 |      8150 |            0.06 |
 |   Register     |     0.010 |       19 |     41600 |            0.05 |
 |   BUFG         |     0.006 |        1 |        32 |            3.13 |
-|   Others       |     0.000 |        4 |       --- |             --- |
+|   Others       |     0.000 |        3 |       --- |             --- |
 | Signals        |     0.080 |       33 |       --- |             --- |
 | I/O            |     3.839 |       17 |       106 |           16.04 |
 | Static Power   |     0.085 |          |           |                 |

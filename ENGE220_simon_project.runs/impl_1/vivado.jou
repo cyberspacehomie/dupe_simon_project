@@ -3,22 +3,22 @@
 # SW Build 5076996 on Wed May 22 18:37:14 MDT 2024
 # IP Build 5075265 on Wed May 22 21:45:21 MDT 2024
 # SharedData Build 5076995 on Wed May 22 18:29:18 MDT 2024
-# Start of session at: Wed Nov 27 09:34:51 2024
-# Process ID: 16300
-# Current directory: Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1
+# Start of session at: Sat Nov 30 18:37:56 2024
+# Process ID: 32652
+# Current directory: C:/Users/danie/Documents/lab_9/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1
 # Command line: vivado.exe -log top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source top.tcl -notrace
-# Log file: Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1/top.vdi
-# Journal file: Z:/Documents/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1\vivado.jou
-# Running On        :WM106-ST08_01
+# Log file: C:/Users/danie/Documents/lab_9/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1/top.vdi
+# Journal file: C:/Users/danie/Documents/lab_9/ENGE220_simon_project/ENGE220_simon_project.runs/impl_1\vivado.jou
+# Running On        :ZephyrusG14-DB
 # Platform          :Windows Server 2016 or Windows 10
 # Operating System  :22631
-# Processor Detail  :13th Gen Intel(R) Core(TM) i7-13700
-# CPU Frequency     :2112 MHz
-# CPU Physical cores:16
-# CPU Logical cores :24
-# Host memory       :34050 MB
-# Swap memory       :5100 MB
-# Total Virtual     :39151 MB
-# Available Virtual :28501 MB
+# Processor Detail  :AMD Ryzen 9 5900HS with Radeon Graphics        
+# CPU Frequency     :3294 MHz
+# CPU Physical cores:8
+# CPU Logical cores :16
+# Host memory       :25131 MB
+# Swap memory       :14495 MB
+# Total Virtual     :39626 MB
+# Available Virtual :13540 MB
 #-----------------------------------------------------------
 source top.tcl -notrace

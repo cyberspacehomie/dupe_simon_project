@@ -1,18 +1,19 @@
 // Nothing goes in this module
 // just module instances and the state machine!
 module top(
-    output [2:0] simon_led0, simon_led1, simon_led2, simon_led3,
-    output [3:0] led,
-    input [3:0] simon_buttons_n,
-    input clk
-	);
+		output [2:0] simon_led0, simon_led1, simon_led2, simon_led3,
+		output [3:0] led,
+		input [3:0] simon_buttons_n,
+		input clk,
+		input [3:0] sw
+		);
 
 //  debounced simon buttons, the state machine inputs	
     wire [3:0] deb_s1_held;
     wire [3:0] deb_s1_press;
     wire button_ctrl_out;
 
-	reg [7:0] score_count, round_count;
+		reg [7:0] score_count, round_count;
 
 
 //  states for state machine NEED TO MAKE MORE STATES, Keep it simple!
@@ -21,7 +22,7 @@ module top(
 		    CORRECT = 4, SEQUENCECOMPLETE = 5, 
 		    INCORRECT = 6;
 		
-	reg [4:0] c_state, n_state; 
+		reg [4:0] c_state, n_state; 
 
 //  state machine outputs
 //  missing lcd out and a few others, will probably be reg
@@ -29,10 +30,10 @@ module top(
     wire led_enable, step, randomize, play_seq;
     wire reset;
 
-	reg [24:0] timer_loadvalue;
-	reg timer_reset, timer_enable;
-	reg score_count_reset, score_count_enable;
-	reg round_count_reset, round_count_enable;
+		reg [24:0] timer_loadvalue;
+		reg timer_reset, timer_enable;
+		reg score_count_reset, score_count_enable;
+		reg round_count_reset, round_count_enable;
 
     debouncer deb_s0 (
 	    .pressed(deb_s1_press [0]), 
@@ -63,22 +64,26 @@ module top(
     );
 
     button_ctrl simon_button_loc (
-        .button_loc(color),
-        .button_in(deb_s1_press),
-        .button_out(button_ctrl_out),
-	    .enable(1)
-    );
+			.button_loc(color),
+			.button_in(deb_s1_held),
+			.button_out(button_ctrl_out),
+			.enable(1)
+			);
     
     led_ctrl simon_color_ctrl (
-        .led0(simon_led0), 
-        .led1(simon_led1), 
-        .led2(simon_led2), 
-        .led3(simon_led3), 
-        .clk(clk), 
-        .color(color), 
-        .enable(button_ctrl_out)
-        );
+			.led0(simon_led0), 
+			.led1(simon_led1), 
+			.led2(simon_led2), 
+			.led3(simon_led3), 
+			.clk(clk), 
+			.color(color), 
+			.enable(button_ctrl_out)
+			);
 
+		assign led = deb_s1_held;
+// commenting out the state machine because theres
+// some stuff that needs to be tested
+/*
 	always @(posedge clk) begin
 		c_state <= n_state;	 
 	end
@@ -159,5 +164,6 @@ module top(
 					end
 				endcase
 			end
+			*/
 
 endmodule

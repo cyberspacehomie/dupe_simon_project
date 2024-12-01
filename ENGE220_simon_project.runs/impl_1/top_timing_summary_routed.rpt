@@ -1,8 +1,8 @@
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
-| Date         : Wed Nov 27 09:35:24 2024
-| Host         : WM106-ST08_01 running 64-bit major release  (build 9200)
+| Date         : Sat Nov 30 18:39:23 2024
+| Host         : ZephyrusG14-DB running 64-bit major release  (build 9200)
 | Command      : report_timing_summary -max_paths 10 -report_unconstrained -file top_timing_summary_routed.rpt -pb top_timing_summary_routed.pb -rpx top_timing_summary_routed.rpx -warn_on_violation
 | Design       : top
 | Device       : 7a35t-cpg236
@@ -235,7 +235,7 @@ Slack:                    inf
                          net (fo=3, routed)           0.892     1.348    simon_color_ctrl/timer_reg[9]
     SLICE_X64Y84         LUT6 (Prop_lut6_I1_O)        0.124     1.472 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3/O
                          net (fo=1, routed)           0.661     2.134    simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3_n_0
-    SLICE_X64Y85         LUT6 (Prop_lut6_I3_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
+    SLICE_X64Y85         LUT6 (Prop_lut6_I5_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
                          net (fo=5, routed)           2.161     4.418    simon_led3_OBUF[0]
     J2                   OBUF (Prop_obuf_I_O)         3.508     7.926 r  simon_led0_OBUF[1]_inst/O
                          net (fo=0)                   0.000     7.926    simon_led0[1]
@@ -259,7 +259,7 @@ Slack:                    inf
                          net (fo=3, routed)           0.892     1.348    simon_color_ctrl/timer_reg[9]
     SLICE_X64Y84         LUT6 (Prop_lut6_I1_O)        0.124     1.472 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3/O
                          net (fo=1, routed)           0.661     2.134    simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3_n_0
-    SLICE_X64Y85         LUT6 (Prop_lut6_I3_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
+    SLICE_X64Y85         LUT6 (Prop_lut6_I5_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
                          net (fo=5, routed)           1.987     4.245    simon_led3_OBUF[0]
     N2                   OBUF (Prop_obuf_I_O)         3.509     7.754 r  simon_led2_OBUF[2]_inst/O
                          net (fo=0)                   0.000     7.754    simon_led2[2]
@@ -283,7 +283,7 @@ Slack:                    inf
                          net (fo=3, routed)           0.892     1.348    simon_color_ctrl/timer_reg[9]
     SLICE_X64Y84         LUT6 (Prop_lut6_I1_O)        0.124     1.472 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3/O
                          net (fo=1, routed)           0.661     2.134    simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3_n_0
-    SLICE_X64Y85         LUT6 (Prop_lut6_I3_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
+    SLICE_X64Y85         LUT6 (Prop_lut6_I5_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
                          net (fo=5, routed)           1.847     4.105    simon_led3_OBUF[0]
     M1                   OBUF (Prop_obuf_I_O)         3.511     7.616 r  simon_led3_OBUF[1]_inst/O
                          net (fo=0)                   0.000     7.616    simon_led3[1]
@@ -307,7 +307,7 @@ Slack:                    inf
                          net (fo=3, routed)           0.892     1.348    simon_color_ctrl/timer_reg[9]
     SLICE_X64Y84         LUT6 (Prop_lut6_I1_O)        0.124     1.472 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3/O
                          net (fo=1, routed)           0.661     2.134    simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3_n_0
-    SLICE_X64Y85         LUT6 (Prop_lut6_I3_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
+    SLICE_X64Y85         LUT6 (Prop_lut6_I5_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
                          net (fo=5, routed)           1.735     3.993    simon_led3_OBUF[0]
     K2                   OBUF (Prop_obuf_I_O)         3.507     7.500 r  simon_led1_OBUF[0]_inst/O
                          net (fo=0)                   0.000     7.500    simon_led1[0]
@@ -331,7 +331,7 @@ Slack:                    inf
                          net (fo=3, routed)           0.892     1.348    simon_color_ctrl/timer_reg[9]
     SLICE_X64Y84         LUT6 (Prop_lut6_I1_O)        0.124     1.472 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3/O
                          net (fo=1, routed)           0.661     2.134    simon_color_ctrl/simon_led0_OBUF[1]_inst_i_3_n_0
-    SLICE_X64Y85         LUT6 (Prop_lut6_I3_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
+    SLICE_X64Y85         LUT6 (Prop_lut6_I5_O)        0.124     2.258 r  simon_color_ctrl/simon_led0_OBUF[1]_inst_i_1/O
                          net (fo=5, routed)           1.694     3.952    simon_led3_OBUF[0]
     M3                   OBUF (Prop_obuf_I_O)         3.512     7.464 r  simon_led3_OBUF[0]_inst/O
                          net (fo=0)                   0.000     7.464    simon_led3[0]

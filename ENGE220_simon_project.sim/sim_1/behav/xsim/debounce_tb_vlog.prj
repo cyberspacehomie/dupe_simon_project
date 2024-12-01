@@ -1,0 +1,20 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../ENGE220_simon_project.srcs/sources_1/imports/modules/lcd_ctrl.v" \
+"../../../../ENGE220_simon_project.srcs/sources_1/imports/modules/binary_to_BCD.v" \
+"../../../../ENGE220_simon_project.srcs/sources_1/imports/modules/lcd_string.v" \
+"../../../../ENGE220_simon_project.srcs/sources_1/imports/modules/scale_decoder.v" \
+"../../../../ENGE220_simon_project.srcs/sources_1/imports/modules/debounce.v" \
+"../../../../ENGE220_simon_project.srcs/sources_1/imports/modules/unsigned_to_ASCII.v" \
+"../../../../ENGE220_simon_project.srcs/sources_1/imports/modules/speakerselect.v" \
+"../../../../ENGE220_simon_project.srcs/sources_1/imports/ENGE220_simon_project/top.v" \
+"../../../../ENGE220_simon_project.srcs/sources_1/new/led_ctrl.v" \
+"../../../../ENGE220_simon_project.srcs/sources_1/new/button_ctrl.v" \
+"../../../../ENGE220_simon_project.srcs/sim_1/new/button_ctrl_tb.v" \
+"../../../../ENGE220_simon_project.srcs/sim_1/new/debounce_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
