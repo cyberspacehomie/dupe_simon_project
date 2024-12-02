@@ -25,8 +25,10 @@ module debouncer(
 			bt_samp <= button;
 			if (bt_samp == button) begin
 				bt_deb <= button;
+			end else begin
+				timer <= timer;
 			end
-	   end
+		end
 	end	
 	
 	assign held = bt_deb;

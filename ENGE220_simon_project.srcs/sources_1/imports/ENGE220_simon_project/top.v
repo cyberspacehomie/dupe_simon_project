@@ -9,9 +9,10 @@ module top(
 	);
 
 	wire [3:0] simon_buttons = ~simon_buttons_n;
+
 //  debounced simon buttons, the state machine inputs	
-    wire [3:0] deb_s1_held;
-    wire [3:0] deb_s1_press;
+    wire [3:0] deb_held;
+    wire [3:0] deb_press;
     wire button_ctrl_out;
 
 	reg [7:0] score_count, round_count;
@@ -35,38 +36,39 @@ module top(
 	reg timer_reset, timer_enable;
 	reg score_count_reset, score_count_enable;
 	reg round_count_reset, round_count_enable;
+	reg color_enable;
 
     debouncer deb_s0 (
-	    .pressed(deb_s1_press [0]), 
-	    .held(deb_s1_held [0]),
+	    .pressed(deb_press [0]), 
+	    .held(deb_held [0]),
 	    .button(simon_buttons[0]),
 	    .reset(reset)
     );
 
     debouncer deb_s1 (
-	    .pressed(deb_s1_press [1]), 
-	    .held(deb_s1_held [1]),
+	    .pressed(deb_press [1]), 
+	    .held(deb_held [1]),
 	    .button(simon_buttons[1]),
 	    .reset(reset)
     );
     
     debouncer deb_s2 (
-	    .pressed(deb_s1_press [2]), 
-	    .held(deb_s1_held [2]),
+	    .pressed(deb_press [2]), 
+	    .held(deb_held [2]),
 	    .button(simon_buttons[2]),
 	    .reset(reset)
     );
 
     debouncer deb_s3 (
-	    .pressed(deb_s1_press [3]), 
-	    .held(deb_s1_held [3]),
+	    .pressed(deb_press [3]), 
+	    .held(deb_held [3]),
 	    .button(simon_buttons[3]),
 	    .reset(reset)
     );
 
     button_ctrl simon_button_loc (
 		.button_loc(color),
-		.button_in(simon_button),
+		.button_in(deb_held),
 		.button_out(button_ctrl_out),
 		.enable(1)
 		);
@@ -81,10 +83,28 @@ module top(
 		.enable(1)
 		);
 
-	assign led = simon_buttons;
+	simon_rand PRNG (
+		.random(color),
+		.step(),
+		.rerun(),
+		.randomize(),
+		.clk(clk),
+		.reset()
+		);
+	simon_scl_dec scale_decoder(
+
+	);
+	simon_spk speakerselect(
+		.speaker(),
+		.note(),
+		.enable(),
+		.clk(clk)
+	);
+
+	assign led = deb_held;
 // commenting out the state machine because theres
 // some stuff that needs to be tested
-/*
+
 	always @(posedge clk) begin
 		c_state <= n_state;	 
 	end
@@ -103,13 +123,16 @@ module top(
     always @* begin    
 				case(c_state)
 					IDLE: begin
-							// this is our RESET stae
-							// led duty cycle should keep them dim
-							// (should we have an always that keeps LEDs
+							// this is our RESET state
+						led_enable = 0;  // keeps leds dim
+						if (deb_press[0]) begin // when button input, move to randomize
+							n_state = RANDOMIZE;
+						end else begin  
+							n_state = IDLE;
+						end
 							// dim unless they're lit up by button press/sequence?)
 							// waiting for button input
 							// print message to LCD welcoming to game
-							// when button input, move to randomize
 					end
 
 					RANDOMIZE: begin
@@ -165,6 +188,5 @@ module top(
 					end
 				endcase
 			end
-			*/
 
 endmodule
