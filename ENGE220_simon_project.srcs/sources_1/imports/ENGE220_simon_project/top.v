@@ -1,192 +1,226 @@
 // Nothing goes in this module
 // just module instances and the state machine!
 module top(
-	output [2:0] simon_led0, simon_led1, simon_led2, simon_led3,
-	output [3:0] led,
-	input [3:0] simon_buttons_n,
-	input clk,
-	input [3:0] sw
-	);
+        output [2:0] simon_led0, simon_led1, simon_led2, simon_led3,
+        output [3:0] led,
+        input [3:0] simon_buttons_n,
+        input clk,
+        input [3:0] sw
+);
 
-	wire [3:0] simon_buttons = ~simon_buttons_n;
+        wire [3:0] simon_buttons = ~simon_buttons_n;
 
-//  debounced simon buttons, the state machine inputs	
-    wire [3:0] deb_held;
-    wire [3:0] deb_press;
-    wire button_ctrl_out;
+        //  debounced simon buttons, the state machine inputs   
+        wire [3:0] deb_held;
+        wire [3:0] deb_press;
+        wire button_ctrl_out;
 
-	reg [7:0] score_count, round_count;
+        reg [7:0] score_count, round_count;
 
 
-//  states for state machine NEED TO MAKE MORE STATES, Keep it simple!
-	localparam IDLE = 0, RANDOMIZE = 1, 
-		SEQUENCE = 2, USERINPUT = 3,
-		CORRECT = 4, SEQUENCECOMPLETE = 5, 
-		INCORRECT = 6;
-	
-	reg [4:0] c_state, n_state; 
+        //  states for state machine NEED TO MAKE MORE STATES, Keep it simple!
+        localparam IDLE = 0, RANDOMIZE = 1, 
+        SEQUENCE = 2, USERINPUT = 3,
+        CORRECT = 4, SEQUENCECOMPLETE = 5, 
+        INCORRECT = 6;
 
-//  state machine outputs
-//  missing lcd out and a few others, will probably be reg
-    wire [1:0] color;
-    wire led_enable, step, randomize, play_seq;
-    wire reset;
+        reg [4:0] c_state, n_state; 
 
-	reg [24:0] timer_loadvalue;
-	reg timer_reset, timer_enable;
-	reg score_count_reset, score_count_enable;
-	reg round_count_reset, round_count_enable;
-	reg color_enable;
+        //  state machine outputs
+        //  missing lcd out and a few others, will probably be reg
+        reg [1:0] color, rand_color, sel_color;
+        reg led_enable, step, randomize, play_seq, rerun;
+        reg reset;
+        
+        reg [24:0] timer_loadvalue;
+        reg timer_reset, timer_enable;
+        reg score_count_reset, score_count_enable;
+        reg round_count_reset, round_count_enable;
+        reg rand_reset;
+        reg color_enable, tone_enable;
+        reg [6:0] round_count, rounds, key_sequence_count;
+        wire [17:0] note_wr;
+        wire [2:0] note_sel;
 
-    debouncer deb_s0 (
-	    .pressed(deb_press [0]), 
-	    .held(deb_held [0]),
-	    .button(simon_buttons[0]),
-	    .reset(reset)
-    );
+        debouncer deb_s0 (
+                .pressed(deb_press [0]), 
+                .held(deb_held [0]),
+                .button(simon_buttons[0]),
+                .reset(reset)
+        );
 
-    debouncer deb_s1 (
-	    .pressed(deb_press [1]), 
-	    .held(deb_held [1]),
-	    .button(simon_buttons[1]),
-	    .reset(reset)
-    );
-    
-    debouncer deb_s2 (
-	    .pressed(deb_press [2]), 
-	    .held(deb_held [2]),
-	    .button(simon_buttons[2]),
-	    .reset(reset)
-    );
+        debouncer deb_s1 (
+                .pressed(deb_press [1]), 
+                .held(deb_held [1]),
+                .button(simon_buttons[1]),
+                .reset(reset)
+        );
 
-    debouncer deb_s3 (
-	    .pressed(deb_press [3]), 
-	    .held(deb_held [3]),
-	    .button(simon_buttons[3]),
-	    .reset(reset)
-    );
+        debouncer deb_s2 (
+                .pressed(deb_press [2]), 
+                .held(deb_held [2]),
+                .button(simon_buttons[2]),
+                .reset(reset)
+        );
 
-    button_ctrl simon_button_loc (
-		.button_loc(color),
-		.button_in(deb_held),
-		.button_out(button_ctrl_out),
-		.enable(1)
-		);
-    
-    led_ctrl simon_color_ctrl (
-		.led0(simon_led0), 
-		.led1(simon_led1), 
-		.led2(simon_led2), 
-		.led3(simon_led3), 
-		.clk(clk), 
-		.color(color), 
-		.enable(1)
-		);
+        debouncer deb_s3 (
+                .pressed(deb_press [3]), 
+                .held(deb_held [3]),
+                .button(simon_buttons[3]),
+                .reset(reset)
+        );
 
-	simon_rand PRNG (
-		.random(color),
-		.step(),
-		.rerun(),
-		.randomize(),
-		.clk(clk),
-		.reset()
-		);
-	simon_scl_dec scale_decoder(
+        button_ctrl simon_button_loc (
+                .button_loc(sel_color),
+                .button_in(deb_press),
+                .button_out(button_ctrl_out),
+                .enable(1)
+        );
 
-	);
-	simon_spk speakerselect(
-		.speaker(),
-		.note(),
-		.enable(),
-		.clk(clk)
-	);
+        led_ctrl simon_color_ctrl (
+                .led0(simon_led0), 
+                .led1(simon_led1), 
+                .led2(simon_led2), 
+                .led3(simon_led3), 
+                .clk(clk), 
+                .color(color), 
+                .enable(1)
+        );
 
-	assign led = deb_held;
-// commenting out the state machine because theres
-// some stuff that needs to be tested
+        PRNG simon_rand(
+                .random(rand_color),
+                .step(step),
+                .rerun(rerun),
+                .randomize(randomize),
+                .clk(clk),
+                .reset(rand_reset)
+        );
+        scale_decoder simon_scl_dec (
+                .note(note_wr),
+                .sel(note_sel),
+                .enable(1)       
+        );
+        speakerselect simon_spk (
+                .speaker(speaker),
+                .note(note_wr),
+                .enable(tone_enable),
+                .clk(clk)
+        );
 
-	always @(posedge clk) begin
-		c_state <= n_state;	 
-	end
+        assign led = deb_held;
+        // commenting out the state machine because theres
+        // some stuff that needs to be tested
 
-	always @* begin
-		n_state = c_state;
-		timer_reset = 0;
-		timer_enable = 0;
-		timer_loadvalue = 0;
-		score_count_reset = 0;
-		score_count_enable = 0;
-		round_count_reset = 0;
-		round_count_enable = 0;
-	end
+        always @(posedge clk) begin
+                c_state <= n_state;  
+        end
 
-    always @* begin    
-				case(c_state)
-					IDLE: begin
-							// this is our RESET state
-						led_enable = 0;  // keeps leds dim
-						if (deb_press[0]) begin // when button input, move to randomize
-							n_state = RANDOMIZE;
-						end else begin  
-							n_state = IDLE;
-						end
-							// dim unless they're lit up by button press/sequence?)
-							// waiting for button input
-							// print message to LCD welcoming to game
-					end
+        always @* begin
+                n_state = c_state;
+                timer_reset = 0;
+                timer_enable = 0;
+                timer_loadvalue = 0;
+                score_count_reset = 0;
+                score_count_enable = 0;
+                round_count_reset = 0;
+                round_count_enable = 0;
+        end
 
-					RANDOMIZE: begin
-							// randomize LFSR
-							// print score message to LCD, this should
-							// not really change until incorrect input
-							// prompts a return to IDLE
-					end
+        always @* begin    
+                case(c_state)
+                        IDLE: begin
+                                round = 1; // set round to 1
+                                // this is our RESET state
+                                led_enable = 0;  // keeps leds dim
+                                if (deb_held[0]) begin // when button input, move to randomize
+                                        led_enable = 1;
+                                        n_state = RANDOMIZE;
+                                end else begin  
+                                        n_state = IDLE;
+                                end
+                                // dim unless they're lit up by button press/sequence?)
+                                // waiting for button input
+                                // print message to LCD welcoming to game
+                        end
 
-					SEQUENCE: begin
-							// this should play a pseudorandom sequence of tones
-							// how many is dependent on round counter,
-							// initial round count should be 1
-							// each tone should be played for 3/4 second
-							// with a 1/4 second gap between tones
-							// after playing tones, should move to USERINPUT
-							// can use key_sequence_count for this to count up
-							// until it reaches round_count, where it moves to USERINPUT
-					end
+                        RANDOMIZE: begin
+                                if (deb_held[0]) begin
+                                        randomize = 1;
+                                end else begin
+                                        randomize = 0;
+                                        n_state = SEQUENCE;
+                                        led_enable = 0;
+                                end
+                                // randomize LFSR
+                                // print score message to LCD, this should
+                                // not really change until incorrect input
+                                // prompts a return to IDLE
+                        end
 
-					USERINPUT: begin
-							// when user presses a button, it lights up and plays tone
-							// button debouncing necessary so that each is only registered once
-							// once button released, compare to appropriate key in sequence 
-							// if user presses the correct key, go to CORRECT.
-							// if user presses correct key and key_sequence_count == round_count, 
-							// go to SEQUENCECOMPLETE
-							// if they don't, go to INCORRECT
+                        SEQUENCE: begin
+                                // the timing and counting should happen via
+                                // a counter module, which should deal with
+                                // all of this
+                                if (key_sequence_count <= rounds) begin
+                                        rand_color = random;
+                                        led_enable = 1;
+                                        color = rand_color;
+                                end else begin
+                                        n_state = USERINPUT;
+                                end
 
-					end
 
-					CORRECT: begin
-							// increment key_sequence_count
-							// go back to USERINPUT, unless
-							
-					end
+                                        
+                                // this should play a pseudorandom sequence of tones
+                                // how many is dependent on round counter,
+                                // initial round count should be 1
+                                // each tone should be played for 3/4 second
+                                // with a 1/4 second gap between tones
+                                // after playing tones, should move to USERINPUT
+                                // can use key_sequence_count for this to count up
+                                // until it reaches round_count, where it moves to USERINPUT
+                        end
 
-					SEQUENCECOMPLETE: begin
-							// if USERINPUT is successful, play a success tone
-							// update score_count and LCD message
-							// increment round_count and go to SEQUENCE
-					end
+                        USERINPUT: begin
+                                if (deb_held != 4'b0000) begin
+                                        color = color_sel;
+                                        if (color_sel == something /* idk something goes here */) begin
+                                        
+                                        end
+                                end
+                                // when user presses a button, it lights up and plays tone
+                                // button debouncing necessary so that each is only registered once
+                                // once button released, compare to appropriate key in sequence 
+                                // if user presses the correct key, go to CORRECT.
+                                // if user presses correct key and key_sequence_count == round_count, 
+                                // go to SEQUENCECOMPLETE
+                                // if they don't, go to INCORRECT
 
-					INCORRECT: begin
-							// play failure tone
-							// print failure message
-							// wait a second
-							// return to IDLE
-					end
+                        end
 
-					default: begin
-							n_state = IDLE;
-					end
-				endcase
-			end
+                        CORRECT: begin
+                                // increment key_sequence_count
+                                // go back to USERINPUT, unless
 
-endmodule
+                        end
+
+                        SEQUENCECOMPLETE: begin
+                                // if USERINPUT is successful, play a success tone
+                                // update score_count and LCD message
+                                // increment round_count and go to SEQUENCE
+                        end
+
+                        INCORRECT: begin
+                                // play failure tone
+                                // print failure message
+                                // wait a second
+                                // return to IDLE
+                        end
+
+                        default: begin
+                                n_state = IDLE;
+                        end
+                endcase
+        end
+
+        endmodule
