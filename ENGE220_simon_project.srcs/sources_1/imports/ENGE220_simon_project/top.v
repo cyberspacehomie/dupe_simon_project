@@ -42,6 +42,9 @@ module top(
         wire [17:0] note_wr;
         wire [2:0] note_sel;
 
+	reg seq_count_tick, round_count_tick;
+	reg round_count, seq_count;
+
         debouncer deb_s0 (
                 .pressed(deb_press [0]), 
                 .held(deb_held [0]),
@@ -107,11 +110,33 @@ module top(
                 .clk(clk)
         );
 
-        assign led = deb_held;
-        // commenting out the state machine because theres
-        // some stuff that needs to be tested
+	counter round_ct (
+		.count(round_count),
+		.pulse(round_count_tick),
+		.reset(round_count_reset),
+		.enable(round_count_enable),
+		.clk(clk)
+	);
 
-        always @(posedge clk) begin
+	counter seq_ct (
+		.count(key_sequece_count),
+		.pulse(seq_count_tick),
+		.reset(seq_count_reset),
+		.enable(seq_count_enable),
+		.clk(clk)
+	);
+
+	counter score_ct(
+		.count(score_count),
+		.pulse(score_count_tick),
+		.reset(score_count_reset),
+		.enable(score_count_enable),
+		.clk(clk)
+	);
+
+        assign led = c_state;
+        
+	always @(posedge clk) begin
                 c_state <= n_state;  
         end
 
