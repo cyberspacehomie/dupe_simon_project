@@ -25,6 +25,7 @@ module top(
         INCORRECT = 6;
 
         reg [4:0] c_state, n_state; 
+        wire [1:0] saved_button;
 
         //  state machine outputs
         //  missing lcd out and a few others, will probably be reg
@@ -141,7 +142,6 @@ module top(
         end
 
         always @* begin
-                n_state = c_state;
                 timer_reset = 0;
                 timer_enable = 0;
                 timer_loadvalue = 0;
@@ -149,6 +149,11 @@ module top(
                 score_count_enable = 0;
                 round_count_reset = 0;
                 round_count_enable = 0;
+                saved_button = 0; // NEED TO USE
+                lcd_enable = 0; // NEED TO ADD
+                lcd_print = 0; // NEED TO ADD
+                note_wr = 0; 
+
         end
 
         always @* begin    
@@ -158,28 +163,35 @@ module top(
                                 // this is our RESET state
                                 led_enable = 0;  // keeps leds dim
                                 if (deb_held[0]) begin // when button input, move to randomize
-                                        led_enable = 1;
-                                        n_state = RANDOMIZE;
+                                        led_enable = 1; // makes input button light up
+                                        n_state = RANDOMIZE; // moves to next state
                                 end else begin  
-                                        n_state = IDLE;
+                                        n_state = IDLE; // else keeps in state
                                 end
                                 // dim unless they're lit up by button press/sequence?)
                                 // waiting for button input
-                                // print message to LCD welcoming to game
+                                // print message to LCD welcoming to game <----
                         end
 
                         RANDOMIZE: begin
-                                if (deb_held[0]) begin
-                                        randomize = 1;
-                                end else begin
-                                        randomize = 0;
-                                        n_state = SEQUENCE;
-                                        led_enable = 0;
+                                if (deb_held[0]) begin 
+                                        randomize = 1; // randomizes
+                                        // led_enable = 1; so that led lights up when button is pressed
+                                        // speaker_enable = 1; so that speaker tone when button is pressed
+                                end 
+                                if (randomize = 1) begin // when randomized
+                                        randomize = 0; // turns randomizer off
+                                        led_enable = 0; // turns leds off
+                                        n_state = SEQUENCE; // moves to next state
+                                    
                                 end
                                 // randomize LFSR
-                                // print score message to LCD, this should
-                                // not really change until incorrect input
-                                // prompts a return to IDLE
+                                // print score message to LCD, this should < --
+                                // not really change until incorrect input < --
+                                // prompts a return to IDLE < --
+                                // need to have an always block that keeps that message until IDLE changes it < --
+                                // need to add speaker enable to RANDOMIZE so that when random button is pressed, speaker output < --
+                                // might need speaker/led together in separate always block? idk
                         end
 
                         SEQUENCE: begin
